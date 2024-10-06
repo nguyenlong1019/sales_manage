@@ -1,0 +1,4 @@
+Tức là ở đây phần thiết kế csdl có những cột thứ sinh như thành tiền (số lượng * đơn giá), 
+tiền thuế (% thuế * thành tiền), 
+tiền chiết khấu (% chiết khấu * thành tiền), 
+tổng tiền ( thành tiền + phí + tiền thuế - tiền chiết khấu) tớ chưa cho vào
