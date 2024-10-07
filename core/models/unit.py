@@ -3,8 +3,8 @@ from inventory_system.utils import CommonAbstract
 
 
 class Unit(CommonAbstract):
-    id = models.CharField(max_length=15, primary_key=True)
-    desc = models.CharField(max_length=50)
+    id = models.CharField(max_length=15, primary_key=True, verbose_name='Mã đơn vị')
+    desc = models.CharField(max_length=50, verbose_name='Mô tả')
 
 
     class Meta:

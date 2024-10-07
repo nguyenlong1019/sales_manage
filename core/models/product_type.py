@@ -3,8 +3,8 @@ from inventory_system.utils import CommonAbstract
 
 
 class ProductType(CommonAbstract):
-    id = models.CharField(max_length=15, primary_key=True)
-    name = models.CharField(max_length=50)
+    id = models.CharField(max_length=15, primary_key=True, verbose_name='Mã loại hàng')
+    name = models.CharField(max_length=50, verbose_name='Tên loại hàng')
 
 
     class Meta:

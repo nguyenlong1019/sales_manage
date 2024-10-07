@@ -3,15 +3,15 @@ from inventory_system.utils import CommonAbstract
 
 
 class Provider(CommonAbstract):
-    provider_id = models.CharField(max_length=15, primary_key=True)
-    provider_name = models.CharField(max_length=50)
-    person = models.CharField(max_length=50, null=True, blank=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
-    email = models.EmailField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=255, null=True, blank=True)
-    acc_number = models.CharField(max_length=50, null=True, blank=True)
-    tax_code = models.CharField(max_length=15, null=True, blank=True)
-    status = models.BooleanField(default=False)
+    id = models.CharField(max_length=15, primary_key=True, verbose_name='Mã nhà cung cấp')
+    name = models.CharField(max_length=50, verbose_name='Tên nhà cung cấp')
+    legal_repr = models.CharField(max_length=50, null=True, blank=True, verbose_name='Người đại diện') # legal representative 
+    phone = models.CharField(max_length=15, null=True, blank=True, verbose_name='Số điện thoại')
+    email = models.EmailField(max_length=50, null=True, blank=True, verbose_name='Email')
+    address = models.CharField(max_length=255, null=True, blank=True, verbose_name='Địa chỉ')
+    acc_number = models.CharField(max_length=50, null=True, blank=True, verbose_name='Số tài khoản')
+    tax_code = models.CharField(max_length=15, null=True, blank=True, verbose_name='Mã số thuế')
+    status = models.BooleanField(default=False, verbose_name='Trạng thái hoạt động')
 
 
     class Meta:

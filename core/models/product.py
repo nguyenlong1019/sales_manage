@@ -5,10 +5,10 @@ from .unit import Unit
 
 
 class Product(CommonAbstract):
-    id = models.CharField(max_length=15, primary_key=True)
-    type = models.ForeignKey(ProductType, to_field='id', on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    unit = models.ForeignKey(Unit, to_field='id', on_delete=models.CASCADE)
+    id = models.CharField(max_length=15, primary_key=True, verbose_name='Mã hàng hóa')
+    type = models.ForeignKey(ProductType, to_field='id', on_delete=models.SET_NULL, null=True, verbose_name='Loại hàng hóa')
+    name = models.CharField(max_length=50, verbose_name='Tên hàng hóa')
+    unit = models.ForeignKey(Unit, to_field='id', on_delete=models.SET_NULL, null=True, verbose_name='Đơn vị tính')
 
 
     class Meta:
