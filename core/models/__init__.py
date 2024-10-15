@@ -5,4 +5,12 @@ from .product import *
 from .order import * 
 from .order_detail import * 
 from .price import * 
-from .price_detail import *
+from .price_detail import * 
+from .buy_require import * 
+from .buy_require_detail import * 
+from .payment import * 
+from .payment_schedule import * 
+from .receive import * 
+from .receive_detail import * 
+from .refund import * 
+from .refund_detail import * 

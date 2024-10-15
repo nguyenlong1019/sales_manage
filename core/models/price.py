@@ -1,7 +1,7 @@
 from django.db import models
 from inventory_system.utils import CommonAbstract 
 from .buy_require import BuyRequire
-from .order import Order 
+# from .order import Order 
 from .provider import Provider 
 
 
