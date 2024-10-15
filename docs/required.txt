@@ -3,4 +3,4 @@ tiền thuế (% thuế * thành tiền),
 tiền chiết khấu (% chiết khấu * thành tiền), 
 tổng tiền ( thành tiền + phí + tiền thuế - tiền chiết khấu) tớ chưa cho vào 
 
-sửa db đến phần lịch thanh toán
+sửa db đến phần lịch thanh toán, payment schedule and receive
