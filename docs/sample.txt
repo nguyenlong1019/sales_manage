@@ -1,0 +1,225 @@
+from django.contrib import admin
+from django.http import HttpResponse
+from .models import Order, OrderDetail, Payment
+
+# Action: Lập báo cáo các đơn mua
+def export_order_report(modeladmin, request, queryset):
+    orders = queryset
+    report = "Báo cáo các đơn mua:\n\n"
+    report += "Mã đơn mua, Diễn giải, Nhà cung cấp, Ngày hóa đơn, Trạng thái đơn hàng\n"
+    
+    for order in orders:
+        report += f"{order.id}, {order.desc}, {order.provider.name if order.provider else 'N/A'}, {order.order_date}, {order.get_status_display()}\n"
+    
+    response = HttpResponse(report, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=order_report.csv'
+    return response
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'desc', 'provider', 'order_date', 'status']
+    actions = [export_order_report]
+
+admin.site.register(Order, OrderAdmin)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Action: Lập báo cáo chi tiết đơn mua
+def export_order_detail_report(modeladmin, request, queryset):
+    order_details = queryset
+    report = "Báo cáo chi tiết đơn mua:\n\n"
+    report += "Mã chi tiết, Mã đơn mua, Mã sản phẩm, Số lượng, Đơn giá, Chiết khấu, Thuế, Phí\n"
+    
+    for detail in order_details:
+        report += f"{detail.id}, {detail.order.id if detail.order else 'N/A'}, {detail.product.id if detail.product else 'N/A'}, {detail.qty}, {detail.price}, {detail.discount}, {detail.tax}, {detail.cost}\n"
+    
+    response = HttpResponse(report, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=order_detail_report.csv'
+    return response
+
+class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ['id', 'order', 'product', 'qty', 'price']
+    actions = [export_order_detail_report]
+
+admin.site.register(OrderDetail, OrderDetailAdmin)
+
+
+
+
+
+
+
+
+# Action: Báo cáo các thanh toán chưa hoàn thành
+def export_unpaid_payment_report(modeladmin, request, queryset):
+    unpaid_payments = queryset.filter(status__in=[1, 2])  # Lọc các thanh toán chưa hoàn thành
+    report = "Báo cáo các thanh toán chưa hoàn thành:\n\n"
+    report += "Mã thanh toán, Mã đơn hàng, Ngày thanh toán, Số tiền, Trạng thái\n"
+    
+    for payment in unpaid_payments:
+        report += f"{payment.id}, {payment.order.id if payment.order else 'N/A'}, {payment.payment_date}, {payment.amount}, {payment.get_status_display()}\n"
+    
+    response = HttpResponse(report, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=unpaid_payment_report.csv'
+    return response
+
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'order', 'payment_date', 'amount', 'status']
+    actions = [export_unpaid_payment_report]
+
+admin.site.register(Payment, PaymentAdmin)
+
+
+
+
+
+
+
+
+
+
+pip install openpyxl
+
+
+from django.contrib import admin
+from django.http import HttpResponse
+from openpyxl import Workbook
+from .models import Order
+
+# Action: Xuất báo cáo các đơn mua ra Excel
+def export_order_report_excel(modeladmin, request, queryset):
+    # Tạo workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Báo cáo đơn mua"
+
+    # Tạo tiêu đề cho các cột
+    ws.append(["Mã đơn mua", "Diễn giải", "Nhà cung cấp", "Ngày hóa đơn", "Ngày giao hàng", "Trạng thái"])
+
+    # Thêm dữ liệu vào các hàng
+    for order in queryset:
+        ws.append([
+            order.id,
+            order.desc,
+            order.provider.name if order.provider else 'N/A',
+            order.order_date,
+            order.deli_date if order.deli_date else 'N/A',
+            order.get_status_display()
+        ])
+
+    # Thiết lập response trả về file Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=order_report.xlsx'
+    
+    # Lưu workbook vào response
+    wb.save(response)
+    return response
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'desc', 'provider', 'order_date', 'status']
+    actions = [export_order_report_excel]
+
+admin.site.register(Order, OrderAdmin)
+
+
+
+
+
+
+
+from .models import OrderDetail
+
+# Action: Xuất báo cáo chi tiết đơn mua ra Excel
+def export_order_detail_report_excel(modeladmin, request, queryset):
+    # Tạo workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Báo cáo chi tiết đơn mua"
+
+    # Tạo tiêu đề cho các cột
+    ws.append(["Mã chi tiết", "Mã đơn mua", "Sản phẩm", "Số lượng", "Đơn giá", "Chiết khấu", "Thuế", "Phí"])
+
+    # Thêm dữ liệu vào các hàng
+    for detail in queryset:
+        ws.append([
+            detail.id,
+            detail.order.id if detail.order else 'N/A',
+            detail.product.name if detail.product else 'N/A',
+            detail.qty,
+            detail.price,
+            detail.discount if detail.discount else 0,
+            detail.tax if detail.tax else 0,
+            detail.cost if detail.cost else 0
+        ])
+
+    # Thiết lập response trả về file Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=order_detail_report.xlsx'
+    
+    # Lưu workbook vào response
+    wb.save(response)
+    return response
+
+class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ['id', 'order', 'product', 'qty', 'price']
+    actions = [export_order_detail_report_excel]
+
+admin.site.register(OrderDetail, OrderDetailAdmin)
+
+
+
+
+
+
+
+from .models import Payment
+
+# Action: Báo cáo các thanh toán chưa hoàn thành ra Excel
+def export_unpaid_payment_report_excel(modeladmin, request, queryset):
+    # Tạo workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Báo cáo thanh toán chưa hoàn thành"
+
+    # Tạo tiêu đề cho các cột
+    ws.append(["Mã thanh toán", "Mã đơn hàng", "Ngày thanh toán", "Số tiền", "Trạng thái"])
+
+    # Thêm dữ liệu vào các hàng
+    unpaid_payments = queryset.filter(status__in=[1, 2])  # Lọc các thanh toán chưa hoàn thành
+    for payment in unpaid_payments:
+        ws.append([
+            payment.id,
+            payment.order.id if payment.order else 'N/A',
+            payment.payment_date,
+            payment.amount,
+            payment.get_status_display()
+        ])
+
+    # Thiết lập response trả về file Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=unpaid_payment_report.xlsx'
+    
+    # Lưu workbook vào response
+    wb.save(response)
+    return response
+
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'order', 'payment_date', 'amount', 'status']
+    actions = [export_unpaid_payment_report_excel]
+
+admin.site.register(Payment, PaymentAdmin)

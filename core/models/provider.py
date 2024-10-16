@@ -21,5 +21,5 @@ class Provider(CommonAbstract):
 
 
     def __str__(self):
-        return f"{self.provider_id} - {self.provider_name}"
+        return f"{self.id} - {self.name}"
 
