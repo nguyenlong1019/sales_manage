@@ -65,10 +65,16 @@ class PriceDetailAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', ] 
 
 
+class BuyRequireDetailInline(admin.TabularInline):
+    model = BuyRequireDetail 
+    extra = 4 
+
+
 @admin.register(BuyRequire)
 class BuyRequireAdmin(admin.ModelAdmin):
     search_fields = ['id', ]
     readonly_fields = ['created_at', ] 
+    inlines = [BuyRequireDetailInline]
 
 
 @admin.register(BuyRequireDetail)
