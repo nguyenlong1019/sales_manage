@@ -1,0 +1,15 @@
+Đổi tên phần mềm: Django (Done)
+Button quên mật khẩu (cho có còn lại không hoạt động)
+Các trường liên quan đến ngày đổi về định dạng dd/mm/yyyy (done)
+
+thêm icon 
+gộp unit, product và product type trong cùng 1 chỗ  (Done)
+
+Danh sách yêu cầu mua, đơn mua (list display) (done)
+
+Tổng tiền, thành tiền, % chiết khấu => thành tiền
+% thuế -> thành tiền
+
+List display áp dụng cho tất cả, created at, updated at hiển thị lên (done)
+
+Phân quyền và site phân quyền 

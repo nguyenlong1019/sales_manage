@@ -106,7 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'vi'
 
 TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
@@ -128,9 +129,9 @@ STATICFILES_DIRS = [
 ]
 
 JAZZMIN_SETTINGS = {
-    'site_title': 'HK2 Admin',
+    'site_title': 'ProcureX',
     'site_header': "D1019",
-    'side_brand': 'D1019',
+    'site_brand': 'ProcureX',
     'site_logo': './assets/images/manager.png',
     'login_logo': './assets/images/manager_100.png',
     'login_logo_dark': './assets/images/manager_100.png',
@@ -144,3 +145,5 @@ JAZZMIN_SETTINGS = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DATE_INPUT_FORMATS = ['%d/%m/%Y']

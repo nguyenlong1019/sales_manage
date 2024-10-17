@@ -17,6 +17,7 @@ from core.models.refund import Refund
 from core.models.refund_detail import RefundDetail  
 
 from django.http import HttpResponse 
+from django import forms 
 
 
 # Action: Lập báo cáo mua hàng 
@@ -50,6 +51,7 @@ def report_unpaid_orders(modeladmin, request, queryset):
 @admin.register(Provider)
 class ProviderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'name', 'legal_repr', 'phone', 'email', 'address', 'acc_number', 'tax_code', 'status']
+    list_display = ['id', 'name', 'legal_repr', 'phone', 'email', 'address', 'acc_number', 'status', 'created_at', 'updated_at']
     list_filter = ['status', 'created_at']
     readonly_fields = ['created_at',]
     # list_display = [] # các trường hiển thị
@@ -65,23 +67,34 @@ class ProductInline(admin.TabularInline):
     extra = 1
 
 
-@admin.register(ProductType)
-class ProductTypeAdmin(admin.ModelAdmin):
-    search_fields = ['id', 'name']
-    readonly_fields = ['created_at',]
-    # inlines = [ProductInline]
+# @admin.register(ProductType)
+# class ProductTypeAdmin(admin.ModelAdmin):
+#     search_fields = ['id', 'name']
+#     readonly_fields = ['created_at',]
+#     # inlines = [ProductInline]
 
 
-@admin.register(Unit)
-class UnitAdmin(admin.ModelAdmin):
-    search_fields = ['id', ]
-    readonly_fields = ['created_at',]
+# @admin.register(Unit)
+# class UnitAdmin(admin.ModelAdmin):
+#     search_fields = ['id', ]
+#     readonly_fields = ['created_at',]
+
+
+class HiddenModelAdmin(admin.ModelAdmin):
+    def has_module_permission(self, request):
+        return False 
+    
+admin.site.register(ProductType, HiddenModelAdmin)
+admin.site.register(Unit, HiddenModelAdmin)
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    search_fields = ['id', ]
+    search_fields = ['id', 'name']
     readonly_fields = ['created_at', ]
+    list_display = ['id', 'name']
+    # list_display = ('id', 'name', 'type', 'unit')  # Hiển thị trong danh sách admin
+    # autocomplete_fields = ['type', 'unit']  # Sử dụng autocomplete cho khóa ngoại
 
 
 class OrderDetailInline(admin.TabularInline):
@@ -93,6 +106,7 @@ class OrderDetailInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', ] 
     readonly_fields = ['created_at', ]
+    list_display = ['id', 'price', 'order_date', 'deli_date', 'provider', 'status']
     inlines = [OrderDetailInline] 
     actions = [report_purchased_items, report_unpaid_orders]
 
@@ -112,6 +126,7 @@ class PriceDetailInline(admin.TabularInline):
 class PriceAdmin(admin.ModelAdmin):
     search_fields = ['id', ]
     readonly_fields = ['created_at', ] 
+    list_display = ['id', 'buy_require', 'provider', 'price_date', 'expire', 'status', 'created_at', 'updated_at']
     inlines = [PriceDetailInline]
 
 
@@ -128,9 +143,10 @@ class BuyRequireDetailInline(admin.TabularInline):
 
 @admin.register(BuyRequire)
 class BuyRequireAdmin(admin.ModelAdmin):
-    search_fields = ['id', ]
+    search_fields = ['id', ] 
     readonly_fields = ['created_at', ] 
-    inlines = [BuyRequireDetailInline]
+    inlines = [BuyRequireDetailInline] 
+    list_display = ['id', 'created_date', 'expired_date', 'created_by', 'status', 'created_at', 'updated_at']
 
 
 # @admin.register(BuyRequireDetail)
@@ -143,12 +159,14 @@ class BuyRequireAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     search_fields = ['id', ]
     readonly_fields = ['created_at', ] 
+    list_display = ['id', 'order', 'times', 'payment_date', 'description', 'amount', 'status', 'created_at', 'updated_at']
 
 
 @admin.register(PaymentSchedule)
 class PaymentScheduleAdmin(admin.ModelAdmin):
     search_fields = ['id', ]
     readonly_fields = ['created_at', ] 
+    list_display = ['id', 'order', 'start_date', 'end_date', 'times', 'amount', 'created_at', 'updated_at']
 
 
 class ReceiveDetailInline(admin.TabularInline):
@@ -161,11 +179,12 @@ class ReceiveAdmin(admin.ModelAdmin):
     search_fields = ['id', ]
     readonly_fields = ['created_at', ] 
     inlines = [ReceiveDetailInline]
+    list_display = ['id', 'receive_date', 'provider', 'order', 'sender', 'receiver', 'status', 'created_at', 'updated_at']
 
 
 # @admin.register(ReceiveDetail)
 # class ReceiveDetailAdmin(admin.ModelAdmin):
-#     search_fields = ['id', ]
+#     search_fields = ['id', ] 
 #     readonly_fields = ['created_at', ] 
 
 
@@ -178,7 +197,8 @@ class RefundDetailInline(admin.TabularInline):
 class RefundAdmin(admin.ModelAdmin):
     search_fields = ['id', ]
     readonly_fields = ['created_at', ] 
-    inlines = [RefundDetailInline]
+    inlines = [RefundDetailInline] 
+    list_display = ['id', 'refund_date', 'order', 'status', 'created_at', 'updated_at']
 
 
 # @admin.register(RefundDetail)

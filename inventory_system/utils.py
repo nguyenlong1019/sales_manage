@@ -3,8 +3,8 @@ from django.utils import timezone
 
 
 class CommonAbstract(models.Model):
-    created_at = models.DateTimeField(editable=False, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(editable=False, null=True, blank=True, verbose_name='Thời điểm tạo')
+    updated_at = models.DateTimeField(auto_now_add=True, verbose_name='Thời điểm cập nhật')
 
     class Meta:
         abstract = True 
