@@ -1,3 +1,4 @@
+from .custom_user import CustomUser 
 from .provider import * 
 from .unit import * 
 from .product_type import * 

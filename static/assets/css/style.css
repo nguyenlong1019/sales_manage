@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", serif;
+    color: #333;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.sidebar ul {
+    list-style: none;
+    display: block;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+    display: block;
+    padding: 12px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.sidebar ul li a i {
+    font-size: 18px;
+    margin-right: 8px;
+}

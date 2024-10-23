@@ -14,7 +14,10 @@ from core.models.payment_schedule import PaymentSchedule
 from core.models.receive import Receive 
 from core.models.receive_detail import ReceiveDetail 
 from core.models.refund import Refund 
-from core.models.refund_detail import RefundDetail  
+from core.models.refund_detail import RefundDetail
+
+from core.models.custom_user import CustomUser 
+from django.contrib.auth.admin import UserAdmin 
 
 from django.http import HttpResponse 
 from django import forms 
@@ -46,6 +49,18 @@ def report_unpaid_orders(modeladmin, request, queryset):
     response = HttpResponse(report, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=unpaid_orders_report.txt'
     return response
+
+
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    list_display = ('id', 'username', 'email', 'role', 'is_staff', 'is_superuser', 'is_active')
+    search_fields = ('username', 'email', 'role')
+    list_editable = ('role', 'is_staff', 'is_active')
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password', 'role')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
 
 
 @admin.register(Provider)
