@@ -1,18 +1,19 @@
 Ban Lãnh đạo và phòng mua hàng 
 
 Ban lãnh đạo:
-Quản lý yêu cầu mua: CRUD, search, duyệt
-Quản lý chào giá: CRUD, search, duyệt
-Quản lý đơn hàng: CRUD, search, duyệt
+Quản lý yêu cầu mua: CRUD, search, duyệt, status, chi tiết yêu cầu mua 
+Quản lý chào giá: CRUD, search, duyệt, chi tiết chào giá, 
+Quản lý đơn hàng: CRUD, search, duyệt, status, đơn mua, chi tiết đơn mua, lịch thanh toán 
 Quản lý nhận hàng: CRUD, search, duyệt 
 Thanh toán: truy cập, duyệt, xem tất cả, search  
 Báo cáo: Truy cập, xem tất cả, search
 
 Phòng mua hàng:
-Quản lý yêu cầu mua: CRUD, search 
+Quản lý yêu cầu mua: CRUD, search, chờ phê duyệt 
 Quản lý chào giá: CRUD, search
 Quản lý đơn hàng: CRUD, search 
 Quản lý nhận hàng: CRUD, search 
+Thanh toán (xem)
 Báo cáo: truy cập và xem 
 
 

@@ -9,7 +9,7 @@ def handle_login_view(request):
     pass 
 
 
-def login_manage_view(request):
+def login_manager_view(request):
     pass 
 
 
