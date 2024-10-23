@@ -44,7 +44,7 @@ urlpatterns = [
     path('manager/report', manager_report_view, name='manager-report'),
     path('manager/report/<pk:pk>', manager_edit_report_view, name='manager-edit-report'),
 
-    path('staff/'),
+    path('staff/', staff_dashboard_view, name='staff-dashboard'),
     path('staff/login', login_staff_view, name='staff-login'),
     path('staff/buy-require'),    
     path('staff/buy-require/add'),    
